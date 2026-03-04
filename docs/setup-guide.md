@@ -151,9 +151,10 @@ cd DraftApp
 ```
 
 ### 5. 依存パッケージのインストール
-
+npm install（npm i）はpackage.jsonのバージョン範囲に基づいてインストールされるため、実行タイミングによってメンバー間でバージョン差異が発生する可能性があります。 
+そのため、package-lock.jsonに記載された正確なバージョンでインストールされるnpm ciを使用してください。
 ```bash
-npm install
+npm ci
 ```
 
 ### 6. 環境変数の設定

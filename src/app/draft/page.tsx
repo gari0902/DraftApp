@@ -110,41 +110,33 @@ const DraftPage = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left p-2 font-medium">チーム</th>
-                  <th className="text-left p-2 font-medium">1巡目</th>
-                  {Array.from({ length: state.currentSnakeRound + 1 }, (_, i) => (
-                    <th key={i} className="text-left p-2 font-medium">
-                      {i + 2}巡目
+                  <th className="text-left p-2 font-medium">チーム名</th>
+                  {state.teams.map((team) => (
+                    <th
+                      key={team.id}
+                      className={`text-left p-2 font-medium ${team.id === currentTeamId ? "text-primary" : ""}`}
+                    >
+                      {team.name}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {state.teams.map((team) => (
-                  <tr
-                    key={team.id}
-                    className={`border-b ${team.id === currentTeamId ? "bg-primary/5" : ""}`}
-                  >
-                    <td className="p-2 font-medium">{team.name}</td>
-                    {team.members.map((member, i) => (
-                      <td key={i} className="p-2">
-                        <MemberBadge name={member.name} />
+                {Array.from({ length: state.currentSnakeRound + 2 }, (_, roundIndex) => (
+                  <tr key={roundIndex} className="border-b">
+                    <td className="p-2 font-medium">{roundIndex + 1}巡目</td>
+                    {state.teams.map((team) => (
+                      <td
+                        key={team.id}
+                        className={`p-2 ${team.id === currentTeamId ? "bg-primary/5" : ""}`}
+                      >
+                        {team.members[roundIndex] ? (
+                          <MemberBadge name={team.members[roundIndex].name} />
+                        ) : (
+                          <span className="text-muted-foreground">-</span>
+                        )}
                       </td>
                     ))}
-                    {/* 空セル */}
-                    {Array.from(
-                      {
-                        length: Math.max(
-                          0,
-                          state.currentSnakeRound + 2 - team.members.length
-                        ),
-                      },
-                      (_, i) => (
-                        <td key={`empty-${i}`} className="p-2">
-                          <span className="text-muted-foreground">-</span>
-                        </td>
-                      )
-                    )}
                   </tr>
                 ))}
               </tbody>

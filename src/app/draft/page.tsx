@@ -125,18 +125,37 @@ const DraftPage = () => {
                 {Array.from({ length: state.currentSnakeRound + 2 }, (_, roundIndex) => (
                   <tr key={roundIndex} className="border-b">
                     <td className="p-2 font-medium">{roundIndex + 1}巡目</td>
-                    {state.teams.map((team) => (
-                      <td
-                        key={team.id}
-                        className={`p-2 ${team.id === currentTeamId ? "bg-primary/5" : ""}`}
-                      >
-                        {team.members[roundIndex] ? (
-                          <MemberBadge name={team.members[roundIndex].name} />
-                        ) : (
-                          <span className="text-muted-foreground">-</span>
-                        )}
-                      </td>
-                    ))}
+                    {state.teams.map((team) => {
+                      const isCurrentPick =
+                        team.id === currentTeamId &&
+                        roundIndex === state.currentSnakeRound + 1;
+                      return (
+                        <td
+                          key={team.id}
+                          className={`p-2 ${
+                            isCurrentPick
+                              ? "bg-primary/15"
+                              : team.id === currentTeamId
+                                ? "bg-primary/5"
+                                : ""
+                          }`}
+                        >
+                          {team.members[roundIndex] ? (
+                            <MemberBadge name={team.members[roundIndex].name} />
+                          ) : isCurrentPick ? (
+                            <motion.span
+                              animate={{ opacity: [1, 0.4, 1] }}
+                              transition={{ duration: 1.2, repeat: Infinity }}
+                              className="inline-flex items-center gap-1 text-primary font-semibold text-xs whitespace-nowrap"
+                            >
+                              ▶ 指名中
+                            </motion.span>
+                          ) : (
+                            <span className="text-muted-foreground">-</span>
+                          )}
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>

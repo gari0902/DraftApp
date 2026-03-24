@@ -40,12 +40,15 @@ const Home = () => {
             </CardContent>
           </Card>
 
-          <Card className="opacity-50 cursor-not-allowed">
+          <Card
+            className="cursor-pointer transition-shadow hover:shadow-lg"
+            onClick={() => router.push("/setup?mode=performance")}
+          >
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 演出あり
-                <span className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground font-normal">
-                  Coming Soon
+                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-normal">
+                  NEW
                 </span>
               </CardTitle>
             </CardHeader>

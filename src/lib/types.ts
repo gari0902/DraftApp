@@ -21,6 +21,8 @@ export type LotteryResult = {
   loserIds: string[];
 };
 
+export type DraftMode = "simple" | "performance";
+
 export type DraftPhase =
   | "idle"
   | "setup"
@@ -39,6 +41,7 @@ export type DraftLogEntry = {
 
 export type DraftState = {
   phase: DraftPhase;
+  mode: DraftMode;
   teams: Team[];
   memberPool: Member[];
   availableMembers: Member[];

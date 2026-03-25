@@ -1,5 +1,6 @@
 import type {
   DraftState,
+  DraftMode,
   Member,
   Team,
   Round1Pick,
@@ -17,7 +18,7 @@ import {
 export type DraftAction =
   | {
       type: "INIT_DRAFT";
-      payload: { teamNames: string[]; memberNames: string[] };
+      payload: { teamNames: string[]; memberNames: string[]; mode?: DraftMode };
     }
   | {
       type: "SET_ROUND1_PICK";
@@ -38,6 +39,7 @@ export type DraftAction =
 
 export const initialDraftState: DraftState = {
   phase: "idle",
+  mode: "simple",
   teams: [],
   memberPool: [],
   availableMembers: [],
@@ -56,7 +58,7 @@ export const draftReducer = (
 ): DraftState => {
   switch (action.type) {
     case "INIT_DRAFT": {
-      const { teamNames, memberNames } = action.payload;
+      const { teamNames, memberNames, mode } = action.payload;
       const teams: Team[] = teamNames.map((name) => ({
         id: generateId(),
         name,
@@ -69,6 +71,7 @@ export const draftReducer = (
       return {
         ...initialDraftState,
         phase: "round1-picking",
+        mode: mode ?? "simple",
         teams,
         memberPool,
         availableMembers: [...memberPool],
